@@ -1,11 +1,13 @@
 package com.bruno.desafio2.Entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,16 +26,20 @@ public class Atividade {
 	@JoinColumn(name = "categoria_id")
 	private Categoria categoria;
 	
+	@OneToOne(mappedBy = "atividade", cascade = CascadeType.ALL)
+	private Bloco bloco;
+	
 	public Atividade() {		
 	}
 
-	public Atividade(Integer id, String nome, String email, String descricao, Double preco, Categoria categoria) {
+	public Atividade(Integer id, String nome, String email, String descricao, Double preco, Categoria categoria, Bloco bloco) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.descricao = descricao;
 		this.preco = preco;
 		this.categoria = categoria;
+		this.bloco = bloco;
 	}
 
 	public Integer getId() {
@@ -82,6 +88,14 @@ public class Atividade {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public Bloco getBloco() {
+		return bloco;
+	}
+
+	public void setBloco(Bloco bloco) {
+		this.bloco = bloco;
 	}
 	
 	
