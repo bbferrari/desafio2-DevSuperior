@@ -1,13 +1,18 @@
 package com.bruno.desafio2.Entities;
 
-import jakarta.persistence.CascadeType;
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,27 +24,38 @@ public class Atividade {
 	private Integer id;
 	private String nome;
 	private String email;
+	
+	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	private Double preco;
+	
+	@OneToMany(mappedBy = "atividade")
+    private Set<Bloco> blocos = new HashSet<>();
 	
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")
 	private Categoria categoria;
 	
-	@OneToOne(mappedBy = "atividade", cascade = CascadeType.ALL)
-	private Bloco bloco;
+	@ManyToMany
+	@JoinTable(name = "tb_atividade_participante",
+	   		   joinColumns = @JoinColumn(name = "atividade_id"),
+	   		   inverseJoinColumns = @JoinColumn(name = "participante_id"))
+	
+	private Set<Participante> participantes = new HashSet<>();
 	
 	public Atividade() {		
 	}
 
-	public Atividade(Integer id, String nome, String email, String descricao, Double preco, Categoria categoria, Bloco bloco) {
+	public Atividade(Integer id, String nome, String email, String descricao, Double preco, Categoria categoria, Set<Bloco> blocos, Set<Participante> participantes) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.descricao = descricao;
 		this.preco = preco;
 		this.categoria = categoria;
-		this.bloco = bloco;
+		this.blocos = blocos;
+		this.participantes = participantes;
+		
 	}
 
 	public Integer getId() {
@@ -90,13 +106,26 @@ public class Atividade {
 		this.categoria = categoria;
 	}
 
-	public Bloco getBloco() {
-		return bloco;
+	public Set<Bloco> getBlocos() {
+		return blocos;
 	}
 
-	public void setBloco(Bloco bloco) {
-		this.bloco = bloco;
+	public Set<Participante> getParticipantes() {
+		return participantes;
 	}
+	
+	
+	
+    
+
+	
+	
+
+	
+	
+
+	
+	
 	
 	
 	
