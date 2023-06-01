@@ -1,6 +1,7 @@
 package com.bruno.desafio2.Entities;
 
 import java.time.Instant;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -69,6 +70,23 @@ public class Bloco {
 
 	public void setAtividade(Atividade atividade) {
 		this.atividade = atividade;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Bloco other = (Bloco) obj;
+		return Objects.equals(id, other.id);
 	}
 	
 	

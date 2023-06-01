@@ -1,6 +1,7 @@
 package com.bruno.desafio2.Entities;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -52,7 +53,27 @@ public class Categoria {
 
 	public Set<Atividade> getAtividades() {
 		return atividades;
+	
+	
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Categoria other = (Categoria) obj;
+		return Objects.equals(id, other.id);
+	}
+	
 
 
 
